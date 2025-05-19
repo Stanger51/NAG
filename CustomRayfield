@@ -1928,7 +1928,7 @@ function RayfieldLibrary:CreateWindow(Settings)
 	-- Tab
 	local FirstTab = false
 	local Window = {}
-	function Window:CreateTab(Name, Image, Ext)
+	function Window:CreateTab(Name, Image, Ext,Customassetpath)
 		local SDone = false
 		local TabButton = TabList.Template:Clone()
 		TabButton.Name = Name
@@ -1940,8 +1940,13 @@ function RayfieldLibrary:CreateWindow(Settings)
 		if Image and Image ~= 0 then
 			if typeof(Image) == 'string' and Icons then
 				local asset = getIcon(Image)
-
+if not Customassetpath then
 				TabButton.Image.Image = 'rbxassetid://'..asset.id
+elseif Customassetpath and isfile(Customassetpath) then
+TabButton.Image.Image = getcustomasset(Customassetpath)
+else
+TabButton.Image.Image = 'rbxassetid://'..asset.id
+end
 				TabButton.Image.ImageRectOffset = asset.imageRectOffset
 				TabButton.Image.ImageRectSize = asset.imageRectSize
 			else
